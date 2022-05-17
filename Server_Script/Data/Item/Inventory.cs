@@ -48,24 +48,24 @@ namespace InflearnServer.Game
             }
         }
 
-        public bool AddItem(Item item)
-        {
-            InventorySlot slot = GetSlotByTemplateId(item.TemplateId);
-            if (slot == null || item.Stackable == false)
-            {
-                InventorySlot emptySlot = GetEmptySlot();
-                if (emptySlot == null)
-                    return false;
+        //public bool AddItem(Item item)
+        //{
+        //    InventorySlot slot = GetSlotByTemplateIdAndLock(item.TemplateId);
+        //    if (slot == null || item.Stackable == false)
+        //    {
+        //        InventorySlot emptySlot = GetEmptySlotAndLock();
+        //        if (emptySlot == null)
+        //            return false;
 
-                emptySlot.AddItem(item);
-            }
-            else
-            {
-                slot.AddItem(item);
-            }
+        //        emptySlot.AddItem(item);
+        //    }
+        //    else
+        //    {
+        //        slot.AddItem(item);
+        //    }
 
-            return true;
-        }
+        //    return true;
+        //}
 
         public bool PlaceItem(int index, Item item)
         {
@@ -78,9 +78,14 @@ namespace InflearnServer.Game
             return true;
         }
 
-        public InventorySlot GetSlotByTemplateId(int templateId)
+        public InventorySlot GetSlotByTemplateIdAndLock(int templateId)
         {
-            return Array.Find(slots, slot => slot.TemplateId == templateId);
+            foreach (var slot in slots)
+            {
+                if (slot.TemplateId == templateId && slot.Acquire())
+                    return slot;
+            }
+            return null;
         }
 
         public InventorySlot GetSlotByDbId(int itemDbId)
@@ -95,9 +100,16 @@ namespace InflearnServer.Game
             return false;
         }
 
-        public InventorySlot GetEmptySlot()
+        public InventorySlot GetEmptySlotAndLock()
         {
-            return Array.Find(slots, i => i.IsEmptySlot());
+            foreach (var slot in slots)
+            {
+                if (slot.IsEmptySlot() && slot.Acquire())
+                {
+                    return slot;
+                }
+            }
+            return null;
         }
 
         public bool HasEmptySlot() { return Array.Exists(slots, slot => slot.IsEmptySlot()); }
@@ -211,66 +223,20 @@ namespace InflearnServer.Game
             return true;
         }
 
-        public InventorySlot GetSuitableSlot(Item item)
+        public InventorySlot GetSuitableSlotAndLock(Item item)
         {
             InventorySlot slot = null;
             if (item.Stackable)
             {
-                slot = GetSlotByTemplateId(item.TemplateId);
+                slot = GetSlotByTemplateIdAndLock(item.TemplateId);
                 if (slot == null)
-                    slot = GetEmptySlot();
-                
+                    slot = GetEmptySlotAndLock();
             }
             else
             {
-                return GetEmptySlot();
+                slot = GetEmptySlotAndLock();
             }
             return slot;
-        }
-
-
-        public bool TryGetSlotsFor(IEnumerable<Item> items, out List<InventorySlot> returnSlots)
-        {
-            int emptySlotCount = GetEmptySlotCount();
-            returnSlots = new List<InventorySlot>();
-            foreach (var item in items)
-            {
-                if (item.Data.stackable)
-                {
-                    InventorySlot slot = GetSlotByTemplateId(item.Data.id);
-                    if (slot != null)
-                    {
-                        slot.Reserved = true;
-                        returnSlots.Add(slot);
-                        continue;
-                    }
-                }
-
-                if (emptySlotCount <= 0)
-                {
-                    foreach (var slot in returnSlots)
-                    {
-                        slot.Reserved = false;
-                    }
-                    returnSlots.Clear();
-                    return false;
-                }
-                
-                InventorySlot emptySlot = GetEmptySlot();
-                if (emptySlot == null)
-                {
-                    foreach (var slot in returnSlots)
-                    {
-                        slot.Reserved = false;
-                    }
-                    returnSlots.Clear();
-                    return false;
-                }
-                emptySlot.Reserved = true;
-                returnSlots.Add(emptySlot);
-                --emptySlotCount;
-            }
-            return true;
         }
     }
 }

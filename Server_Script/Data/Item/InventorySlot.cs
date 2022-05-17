@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Google.Protobuf.Protocol;
 using InflearnServer.Game.Data;
 using Newtonsoft.Json;
@@ -16,7 +17,18 @@ namespace InflearnServer.Game
         [NonSerialized] public Inventory parent;
         public Item Item { get; private set; } = new Item();
         public int Index { get; set; } = -1;
-        public bool Reserved { get; set; } = false; //For Net DB
+        private volatile int _locked;
+        
+        public bool Acquire() 
+        {
+            return Interlocked.CompareExchange(ref _locked, 1, 0) == 0;
+        }
+        public void Release()
+        {
+            _locked = 0;
+        }
+
+        
         #endregion
         public int ItemDbId
         {
@@ -136,7 +148,7 @@ namespace InflearnServer.Game
 
         public bool IsEmptySlot()
         {
-            if (Reserved)
+            if (_locked == 1)
                 return false;
             if (Item == null || TemplateId < 0 || Amount <= 0)
                 return true;
