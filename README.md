@@ -3,6 +3,21 @@
 ### 동영상 링크
 [![Video](https://img.youtube.com/vi/D5QFlw5yei8/0.jpg)](https://youtu.be/D5QFlw5yei8)
 ------------------
+### 역할
+전체 제작
+
+### 사용기술
+#### Unity Client
+> + Addressables
+> + Cinemachine
+> + NPOI(Editor)
+
+#### Game Server
+> + C# Server(TCP)
+> + .Net core Entity Framework (DB)
+> + .Net core MVC (Web Server)
+> + Protocol buffers(Packet)
+
 ### 소개
 > 2년간 SI개발자로 일하였고, 현재 독학으로 게임 서버 개발자로 이직 준비중입니다.  
 > 코드리뷰를 통한 올바른 개발 방향을 잡아 주면서 성장할 수 있는 회사를 찾고 있습니다.  
@@ -36,21 +51,6 @@
 >   - 예) Battle System :
 > - 대량의 클라이언트를 수용하기 위해 영역에 따라 패킷을 Broadcast하는 범위를 한정하고, 범위 외의 오브젝트들은 클라이언트에서 Desapwn 처리되게 하여 서버가 처리해야할 복잡도를 줄였습니다.
 >   - 예) View :
-
-### 역할
-전체 제작
-
-### 사용기술
-#### Unity Client
-> + Addressables
-> + Cinemachine
-> + NPOI(Editor)
-
-#### Game Server
-> + C# Server(TCP)
-> + .Net core Entity Framework (DB)
-> + .Net core MVC (Web Server)
-> + Protocol buffers(Packet)
 
 ### 구현 로직
 > + Resource Pooling
