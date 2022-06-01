@@ -6,6 +6,9 @@
 > 1. Unity와 C# TCP Server를 연동하여 MMORPG를 만든다.
 > 2. 각종 개발 툴을 만들어서 게임의 생산성을 높인다
 
+### 역할
+전체 제작
+
 ### 사용기술
 #### Unity Client
 > + Addressables
