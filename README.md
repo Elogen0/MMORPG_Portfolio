@@ -21,6 +21,7 @@
 >   -예) Ability System : 
 > - 쾌적한 게임을 즐길 수 있도록 최적화와 비동기 프로그래밍을 진행하였다.
 >   - 예) AddressablePooling : 
+
 #### 서버
 > - DB와 Logic Thread를 따로 분리, I/O로 인한 Device Time이 전체적인 서버에 영향이 가지 않도록 설계하였다.
 >   - 예) Main : 
