@@ -17,8 +17,8 @@
 
 #### Game Server
 > + C# Server(TCP)
-> + Net core Entity Framework (DB)
-> + Net core MVC (Web Server)
+> + .Net core Entity Framework (DB)
+> + .Net core MVC (Web Server)
 > + Protocol buffers(Packet)
 
 ### 구현 로직
