@@ -1,7 +1,7 @@
 # MMORPG-Portfolio 요약
 
 ## 동영상 링크
-[![Video](https://img.youtube.com/vi/D5QFlw5yei8/0.jpg)](https://youtu.be/D5QFlw5yei8)]
+[![Video](https://img.youtube.com/vi/D5QFlw5yei8/0.jpg)](https://youtu.be/D5QFlw5yei8)
 
 ## 소개
 > 2년간 SI개발자로 일하였고, 현재 독학으로 게임 서버 개발자로 이직 준비중입니다.  
