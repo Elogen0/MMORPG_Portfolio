@@ -45,7 +45,7 @@
 > - DB와 Logic Thread를 따로 분리, I/O로 인한 Device Time이 전체적인 서버에 영향이 가지 않도록 설계하였습니다.
 >   - 예) Main : 
 > - Lock-Free
->   - 각 소켓을 통해 들어오는 패킷을 Priority Queue를 통해 Serialize하여 순차적으로 실행하도록 하였다. 이 과정에서 Queue에 Push하는 부분만 lock을 걸었습니다.
+>   - 각 소켓을 통해 들어오는 패킷을 Priority Queue를 통해 Serialize하여 순차적으로 실행하도록 하였습니다.
 >   - 아이템을 획득할 때 Interlocked를 통해 Data-Race가 일어나는 Inventory Slot을 동시에 획득하지 못하도록 하였습니다.
 > #### 안정성
 > - 클라이언트 메모리 변조를 통한 게임 생태계를 망치는것을 막기위해, 영향력이 큰 부분은 서버에서 검증하도록 하였습니다.
