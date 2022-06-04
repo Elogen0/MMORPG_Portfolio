@@ -41,13 +41,13 @@
 >   - 예) AddressablePooling : 
 
 #### 서버
-> - DB와 Logic Thread를 따로 분리, I/O로 인한 Device Time이 전체적인 서버에 영향이 가지 않도록 설계하였습니다.
+> #### 성능
+>  - DB와 Logic Thread를 따로 분리, I/O로 인한 Device Time이 전체적인 서버에 영향이 가지 않도록 설계하였습니다.
 >   - 예) Main : 
-> - lock의 범위 : 각 소켓을 통해 들어오는 패킷을 Priority Queue를 통해 Serialize하여 순차적으로 실행하도록 하였다. 이 과정에서 Queue에 Push하는 부분만 lock을 걸었습니다.
->   - 예) Room :
-> - Data Race가 생기는 부분은 Interlocked를 통해 접근을 통제하여 비정상적인 작동을 막았습니다.
->   - 예) Inventory System :
->   - 동시에 아이템을 획득시 아이템이 사라지는 현상을 발견하여, DB Transaction이 완료되는 동안 해당 InventorySlot을 Interlocked로 막았습니다.
+> - Lock-Free
+>   - 각 소켓을 통해 들어오는 패킷을 Priority Queue를 통해 Serialize하여 순차적으로 실행하도록 하였다. 이 과정에서 Queue에 Push하는 부분만 lock을 걸었습니다.
+>   - 아이템을 획득할 때 Interlocked를 통해 Data-Race가 일어나는 Inventory Slot을 동시에 획득하지 못하도록 하였습니다.
+> #### 안정성
 > - 클라이언트 메모리 변조를 통한 게임 생태계를 망치는것을 막기위해, 영향력이 큰 부분은 서버에서 검증하도록 하였습니다.
 >   - 예) Battle System :
 >   - 유저가 데미지를 입힐 때, 클라에서 오는 정보를 맹신하지 않고 서버의 DataManager를 통해값을 받아와 올바른 데미지 처리가 되게 하였습니다.
