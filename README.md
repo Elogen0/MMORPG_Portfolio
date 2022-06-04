@@ -42,7 +42,7 @@
 
 #### 서버
 > #### 성능
->  - DB와 Logic Thread를 따로 분리, I/O로 인한 Device Time이 전체적인 서버에 영향이 가지 않도록 설계하였습니다.
+> - DB와 Logic Thread를 따로 분리, I/O로 인한 Device Time이 전체적인 서버에 영향이 가지 않도록 설계하였습니다.
 >   - 예) Main : 
 > - Lock-Free
 >   - 각 소켓을 통해 들어오는 패킷을 Priority Queue를 통해 Serialize하여 순차적으로 실행하도록 하였다. 이 과정에서 Queue에 Push하는 부분만 lock을 걸었습니다.
