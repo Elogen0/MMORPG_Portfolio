@@ -95,7 +95,6 @@ namespace InflearnServer
                 GameRoom townRoom = GameLogic.Instance.Add(3);
                 GameRoom dungeonRoom = GameLogic.Instance.Add(2);
             });
-            //todo : 일단 1번방만 쓴다고 생각
             
             //DNS (Domain Name System) todo: 나중에 Config파일로 빼줌
             string host = Dns.GetHostName(); //내 로컬컴퓨터 호스트 이름
@@ -105,7 +104,7 @@ namespace InflearnServer
 
             IpAddress = ipAddr.ToString();
 
-            _listener.Init(endpoint, () => { return SessionManager.Instance.Generate(); }); //sessionManager를 통해 발급하도록 개선
+            _listener.Init(endpoint, () => { return SessionManager.Instance.Generate(); });
             Console.WriteLine("Listenling...");
 
             //FlushRoom();
@@ -127,7 +126,7 @@ namespace InflearnServer
                 t.Start();
             }
 
-            //Db Task
+            //Game Logic Task
             Thread.CurrentThread.Name = "GameLogic";
             GameLogicTask();
         }
