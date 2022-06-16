@@ -23,28 +23,6 @@ namespace Kame.Quests
         public Dictionary<int, QuestRecord> OnGoingQuests => _onGoingQuests;
         public Dictionary<int, QuestRecord> RewardedQuests => _rewardedQuests;
 
-        public static string Path = "Managers/QuestManager";
-
-// #if UNITY_EDITOR
-//         [MenuItem("Tools/Managers/QuestManager")]
-//         static void Create()
-//         {
-//             GameUtil.Editors.CreateAsset<QuestManager>("Assets/Resources/Managers/", "QuestManager.asset");
-//         }
-// #endif
-//         private static QuestManager _instance;
-//         public static QuestManager Instance
-//         {
-//             get
-//             {
-//                 if (_instance == null)
-//                 {
-//                     _instance = ResourceLoader.Load<QuestManager>("Managers/QuestManager");
-//                     _instance.hideFlags = HideFlags.DontUnloadUnusedAsset;
-//                 }
-//                 return _instance;
-//             }
-//         }
         public void Init(S_QuestList questPacket)
         {
             foreach (var questInfo in questPacket.QuestList)
