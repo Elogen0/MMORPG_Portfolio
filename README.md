@@ -28,36 +28,45 @@
 #### 클라이언트
 > - 하드코딩을 철저히 배제하고 객체지향적인 설계로 유지보수와 확장성을 고려하였습니다.
 >   - Stat System 살펴보기 : 
->   - Stat은 체력, 마나, 스피드 등 각각의 필드가 존재하는 것이 아닌, Map안의 Modifier클래스로 정의되어 새로운 스탯을 넣고 싶다면 코드 전체를 수정하는 것이 아닌 Enum값 추가로 간단히 해결 가능합니다.
+>   [ModifierBase.cs](https://github.com/Elogen0/MMORPG_Portfolio/blob/master/Client_Script/Stats/ModifiableBase.cs), 
+>   [Stat.cs](https://github.com/Elogen0/MMORPG_Portfolio/blob/master/Client_Script/Stats/Stat.cs)
+>   - Stat은 체력, 마나, 스피드 등 각각의 필드가 존재하는 것이 아닌, Map안의 Modifier클래스로 정의되어서 기획변경으로 새로운 스탯을 넣고 싶다면 코드 전체를 수정하는 것이 아닌 Enum값 추가로 간단히 변경할수 있도록 하였습니다.
+>   
 > - 수정 시 각 시스템간 영향이 최소화 되도록 각 모듈간 의존성을 줄였습니다.
 >   - Quest System 살펴보기 :
->   [ModifierBase.cs](https://github.com/Elogen0/MMORPG_Portfolio/blob/master/Client_Script/Stats/ModifiableBase.cs)
->   [Stat.cs](https://github.com/Elogen0/MMORPG_Portfolio/blob/master/Client_Script/Stats/Stat.cs)
+>   [QeustManager.cs](https://github.com/Elogen0/MMORPG_Portfolio/blob/master/Client_Script/Common/Managers/QuestManager.cs), 
+>   [UI_QuestList.cs](https://github.com/Elogen0/MMORPG_Portfolio/blob/master/Client_Script/DialogueSystem/Quests/UI_QuestList.cs)
 >   - Observer 패턴을 적극 활용하여 클래스간의 의존성을 줄였습니다. 특히 control단에서는 view단을 전혀 모르도록 설계하였습니다.
 >   - 다른 시스템끼리는 Id를 통해 서로의 기능을 모르고도 특정 기능을 수행할수 있도록 하였습니다.
+>   
 > - 각 파트간 업무 분담을 할 수 있도록 각 기능을 모듈화하여 에디터 기능으로 빼놓아 생산성 증진을 도모하였습니다.
->   - Ability System 살펴보기
+>   - Ability System 살펴보기 :
+>   [Ability.cs](https://github.com/Elogen0/MMORPG_Portfolio/blob/master/Client_Script/GameLogic/Abilities/Ability.cs), 
+>   [DelayedClickTargeting.cs](https://github.com/Elogen0/MMORPG_Portfolio/blob/master/Client_Script/GameLogic/Abilities/Targeting/DelayedClickTargeting.cs)
 >   - 다형성의 장점을 살릴 수 있는 Command 패턴, Statergy 패턴과 에디터상에서 편집가능한 Scriptable Object기능을 이용하여 최소한의 코딩으로 컨텐츠를 생산할 수 있도록 하였습니다
 >   
 > - 쾌적한 게임을 즐길 수 있도록 최적화와 비동기 프로그래밍을 진행하였습니다.
->   - 예) AddressablePooling : 
+>   - AddressablePool 살펴보기 : 
+>   [AddressablePoolManager.cs](https://github.com/Elogen0/MMORPG_Portfolio/blob/master/Client_Script/Common/ResourceManagement/AddressablePoolManager.cs), 
 
 #### 서버
-> #### 성능
+> #### Core 로직
 > - DB와 Logic Thread를 따로 분리, I/O로 인한 Device Time이 전체적인 서버에 영향이 가지 않도록 설계하였습니다.
->   - 예) Main : 
-> - Lock정책
->   - 각 소켓을 통해 들어오는 패킷을 Queue를 통해 순차적으로 실행하도록 하였습니다.
->   - 아이템을 획득할 때 Interlocked를 통해 Data Race가 일어나는 Inventory Slot을 동시에 획득하지 못하도록 하였습니다.
-> - sector
->   - 대량의 클라이언트를 수용하기 위해 영역에 따라 패킷을 Broadcast하는 범위를 한정하고, 범위 외의 오브젝트들은 클라이언트에서 Desapwn 처리되게 하여 서버가 처리해야할 복잡도를 줄였습니다.
-> #### 안정성
-> - 클라이언트 메모리 변조를 통한 게임 생태계를 망치는것을 막기위해, 영향력이 큰 부분은 서버에서 검증하도록 하였습니다.
->   - 예) Battle System :
->   - 유저가 데미지를 입힐 때, 클라에서 오는 정보를 맹신하지 않고 서버의 DataManager를 통해값을 받아와 올바른 데미지 처리가 되게 하였습니다.
->   - 그러나 유저가 조작하여 이동하는 부분은 서버에서 처리하니 조작감이 떨어져서 클라에서 처리하게 하였는데, 이로인해 스피드핵같은 비정상적인 작동을 막을수 없게되었습니다.
-
->   - 예) View :
+>   - [Program.cs](https://github.com/Elogen0/MMORPG_Portfolio/blob/master/Server_Script/Program.cs)
+>   
+> - 각 소켓을 통해 들어오는 패킷을 Queue를 통해 순차적으로 실행하도록 하였습니다.
+>   - [JobSerializer.cs](https://github.com/Elogen0/MMORPG_Portfolio/blob/master/Server_Script/Job/JobSerializer.cs)
+>   - [GameRoom.cs](https://github.com/Elogen0/MMORPG_Portfolio/blob/master/Server_Script/Room/GameRoom.cs)
+>   
+> #### 성능, 안정성
+> - 대량의 클라이언트를 수용하기 위해 영역에 따라 패킷을 Broadcast하는 범위를 한정하고, 범위 외의 오브젝트들은 클라이언트에서 Desapwn 처리되게 하여 서버가 처리해야할 복잡도를 줄였습니다.
+>   - [VisionCube.cs](https://github.com/Elogen0/MMORPG_Portfolio/blob/master/Server_Script/Room/VisionCube.cs)
+>   
+> - 클라이언트 메모리 변조를 통한 게임 생태계를 망치는것을 막기위해, 영향력이 큰 부분은 서버에서 DataManager에서 데이터를 뽑아와 자체 검증하도록 하였습니다.
+>   - [GameRoom_Battle.cs](https://github.com/Elogen0/MMORPG_Portfolio/blob/master/Server_Script/Room/GameRoom_Battle.cs)
+>   
+> - 아이템을 획득할 때 Interlocked를 통해 Data Race가 일어나는 Inventory Slot을 동시에 획득하지 못하도록 하였습니다.
+>   - [InventorySlot.cs](https://github.com/Elogen0/MMORPG_Portfolio/blob/master/Server_Script/Data/Item/InventorySlot.cs)
 
 ### 구현 로직
 > + Resource Pooling
