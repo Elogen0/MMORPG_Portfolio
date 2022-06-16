@@ -31,6 +31,8 @@
 >   - Stat은 체력, 마나, 스피드 등 각각의 필드가 존재하는 것이 아닌, Map안의 Modifier클래스로 정의되어 새로운 스탯을 넣고 싶다면 코드 전체를 수정하는 것이 아닌 Enum값 추가로 간단히 해결 가능합니다.
 > - 수정 시 각 시스템간 영향이 최소화 되도록 각 모듈간 의존성을 줄였습니다.
 >   - Quest System 살펴보기 :
+>   [ModifierBase.cs](https://github.com/Elogen0/MMORPG_Portfolio/blob/master/Client_Script/Stats/ModifiableBase.cs)
+>   [Stat.cs](https://github.com/Elogen0/MMORPG_Portfolio/blob/master/Client_Script/Stats/Stat.cs)
 >   - Observer 패턴을 적극 활용하여 클래스간의 의존성을 줄였습니다. 특히 control단에서는 view단을 전혀 모르도록 설계하였습니다.
 >   - 다른 시스템끼리는 Id를 통해 서로의 기능을 모르고도 특정 기능을 수행할수 있도록 하였습니다.
 > - 각 파트간 업무 분담을 할 수 있도록 각 기능을 모듈화하여 에디터 기능으로 빼놓아 생산성 증진을 도모하였습니다.
