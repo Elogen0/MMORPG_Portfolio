@@ -16,15 +16,10 @@ namespace InflearnServer.Game
             if (player == null)
                 return;
 
-            //Todo : 검증
             //일단 서버에서 좌표이동
             PositionInfo movePosInfo = movePacket.PosInfo;
             ObjectInfo playerInfo = player.Info;
-            //다른 좌표로 이동할 경우, 갈 수 있는지 체크
-            //{
-            //    if (Map.CanGo(movePosInfo.PosX, movePosInfo.PosY) == false)
-            //        return;
-            //}
+
             Map.ApplyMove(player, new Vector3(movePosInfo.PosX, movePosInfo.PosY, movePosInfo.PosH), false);
             playerInfo.PosInfo.State = movePosInfo.State;
             playerInfo.PosInfo.DirX = movePosInfo.DirX;
@@ -53,7 +48,7 @@ namespace InflearnServer.Game
             {
                 return;
             }
-            //todo : 스킬 사용 가능 여부 체크
+
             info.PosInfo.State = CreatureState.Skill;
 
             S_Skill skill = new S_Skill() { Info = new SkillInfo() };
@@ -110,7 +105,6 @@ namespace InflearnServer.Game
                 case SkillType.SkillRect:
                     break;
             }
-                //통과
         }
 
         public Vector2 GetRandomInCircle(Vector2 position, float radius)
